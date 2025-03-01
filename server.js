@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const OpenAI = require("openai");
-require("dotenv").config(); // Securely load API key from .env file
+require("dotenv").config();
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
@@ -12,6 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Handle requests at "/chat"
 app.post("/chat", async (req, res) => {
     const userMessage = req.body.message;
 
@@ -24,9 +25,10 @@ app.post("/chat", async (req, res) => {
 
         res.json({ reply: response.choices[0].message.content });
     } catch (error) {
-console.error("OpenAI API Error:", error); // This logs the actual error in the terminal
-res.status(500).json({ error: error.message });
+        console.error("OpenAI API Error:", error);
+        res.status(500).json({ error: error.message || "Unknown error" });
     }
 });
 
+// Start server on port 3000
 app.listen(3000, () => console.log("Server running on port 3000"));
