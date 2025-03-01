@@ -7,6 +7,8 @@ require("dotenv").config();
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
+console.log("Loaded API Key:", process.env.OPENAI_API_KEY ? "Exists" : "MISSING!");
+
 
 const app = express();
 app.use(cors());
