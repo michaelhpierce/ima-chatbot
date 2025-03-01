@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ Define the "/chat" route (this is the missing piece!)
+// ✅ Define the "/chat" route (fixing any missing parts)
 app.post("/chat", async (req, res) => {
     const userMessage = req.body.message;
 
@@ -26,4 +26,10 @@ app.post("/chat", async (req, res) => {
         res.json({ reply: response.choices[0].message.content });
     } catch (error) {
         console.error("OpenAI API Error:", error);
-   
+        res.status(500).json({ error: error.message || "Unknown error" });
+    }
+});
+
+// ✅ Ensure server is actually LISTENING
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
