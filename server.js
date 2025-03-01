@@ -7,14 +7,12 @@ require("dotenv").config();
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
-console.log("Loaded API Key:", process.env.OPENAI_API_KEY ? "Exists" : "MISSING!");
-
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Handle requests at "/chat"
+// ✅ Define the "/chat" route (this is the missing piece!)
 app.post("/chat", async (req, res) => {
     const userMessage = req.body.message;
 
@@ -28,9 +26,4 @@ app.post("/chat", async (req, res) => {
         res.json({ reply: response.choices[0].message.content });
     } catch (error) {
         console.error("OpenAI API Error:", error);
-        res.status(500).json({ error: error.message || "Unknown error" });
-    }
-});
-
-// Start server on port 3000
-app.listen(3000, () => console.log("Server running on port 3000"));
+   
